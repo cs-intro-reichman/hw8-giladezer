@@ -53,13 +53,11 @@
     /** Makes this user follow the given name. If successful, returns true. 
      *  If this user already follows the given name, or if the follows list is full, does nothing and returns false; */
     public boolean addFollowee(String name) {
-        if(follows.length == 10){
+        if(fCount == follows.length){
             return false;
         }
-        for (int i =0; i < fCount; i++) {
-            if (follows[i].equals(name)) {
-                return false;
-            }
+        if(follows(name)){
+            return false;
         }
         follows[fCount] = name;
         fCount++;
@@ -69,14 +67,12 @@
     /** Removes the given name from the follows list of this user. If successful, returns true.
      *  If the name is not in the list, does nothing and returns false. */
     public boolean removeFollowee(String name) {
-        if(follows(name)){
-            for (int i =0; i < fCount; i++) {
-                if (follows[i].equals(name)) {
-                    follows[i] = follows[fCount - 1];
-                    follows[fCount - 1] = null;
-                    fCount--;
-                    return true;
-                }
+        for(int i =0; i < fCount; i++){
+            if(follows[i].equals(name)){
+                follows[i] = follows[fCount -1];
+                follows[fCount -1] = null;
+                fCount--;
+                return true;
             }
         }
         return false;
@@ -85,21 +81,19 @@
     /** Counts the number of users that both this user and the other user follow.
     /*  Notice: This is the size of the intersection of the two follows lists. */
     public int countMutual(User other) {
-        int count = 0;
-         for(int i =0; i < fCount; i++){
-            for(int j =i; j<other.fCount; j++){
-                if(follows[i].equals(other.follows[j])){
-                    count++;
-                }
+        int mutualCount = 0;
+        for(int i =0; i < this.fCount; i++){
+            if(other.follows(this.follows[i])){
+                mutualCount++;
             }
-         }
-        return count;
+        }
+        return mutualCount;
     }
 
     /** Checks is this user is a friend of the other user.
      *  (if two users follow each other, they are said to be "friends.") */
     public boolean isFriendOf(User other) {
-        return this.follows(other.name) && other.follows(this.name);
+        return this.follows(other.getName()) && other.follows(this.getName());
     }
     /** Returns this user's name, and the names that s/he follows. */
     public String toString() {
