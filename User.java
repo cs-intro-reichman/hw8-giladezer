@@ -103,4 +103,22 @@
         }
         return ans;
     }
+
+    public boolean  equals(Object other) {
+        if (!(other instanceof User)) {
+            return false;
+        }
+        User otherUser = (User) other;
+        if (!this.name.equals(otherUser.name)) {
+            return false;
+        }
+        if (this.fCount != otherUser.fCount) {
+            return false;
+        }
+        for (int i = 0; i < this.fCount; i++) {
+            if (!this.follows[i].equals(otherUser.follows[i])) {
+                return false;
+            }
+        }
+        return true;
 }

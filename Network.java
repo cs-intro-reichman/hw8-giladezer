@@ -60,7 +60,7 @@ public class Network {
     public boolean addFollowee(String name1, String name2) {
         User user1 = getUser(name1);
         User user2 = getUser(name2);
-        if(user1 == null || user2 == null){
+        if(user1 == null || user2 == null || user1.equals(user2)){
             return false;
         }
         return user1.addFollowee(name2);
